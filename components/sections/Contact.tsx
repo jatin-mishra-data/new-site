@@ -107,6 +107,10 @@ export default function Contact() {
   const emailDisplay =
     siteConfig.email === "PLACEHOLDER_EMAIL" ? null : siteConfig.email;
 
+  const gmailUrl = emailDisplay
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailDisplay)}&su=${encodeURIComponent("Business enquiry from website")}&body=${encodeURIComponent("Hi Jatin,\n\nThis is a business enquiry.\n\nMy business is:\nWhat I want help with:\nPreferred timings for a call:\n\nPlease let me know what timings you are available.")}`
+    : null;
+
   return (
     <SectionWrapper id="contact" className="relative overflow-hidden">
       {/* ── Section background fill ── */}
@@ -230,7 +234,9 @@ export default function Contact() {
                     Email
                   </p>
                   <a
-                    href={`mailto:${emailDisplay}`}
+                    href={gmailUrl ?? "#contact"}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[var(--text-primary)] hover:text-[var(--accent-1)] transition-colors"
                   >
                     {emailDisplay}
@@ -303,7 +309,9 @@ export default function Contact() {
           {/* Alternate ways to reach me — secondary to the form */}
           <div className="flex flex-wrap gap-3">
             <a
-              href={`mailto:${siteConfig.email}?subject=Website%20Project%20Inquiry`}
+              href={gmailUrl ?? "#contact"}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-[var(--text-primary)] transition-all duration-200 hover:border-[rgba(96,165,250,0.45)] hover:text-[var(--accent-1)]"
               style={{
                 background: "rgba(15,23,42,0.45)",
@@ -502,7 +510,9 @@ export default function Contact() {
                       <>
                         {" "}at{" "}
                         <a
-                          href={`mailto:${emailDisplay}`}
+                          href={gmailUrl ?? "#contact"}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="font-medium underline underline-offset-4"
                         >
                           {emailDisplay}
