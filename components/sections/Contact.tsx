@@ -93,7 +93,7 @@ export default function Contact() {
         email,
         message,
       }).toString();
-      const res = await fetch("/", {
+      const res = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
@@ -373,7 +373,7 @@ export default function Contact() {
               noValidate
               name="contact"
               method="POST"
-              action="/"
+              action="/__forms.html"
               className="relative z-10 flex flex-col gap-5"
             >
               {/* Netlify required hidden fields */}
