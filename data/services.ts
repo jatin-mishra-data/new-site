@@ -11,7 +11,7 @@ export const services: Service[] = [
   {
     id: "saas-integrations",
     icon: "Zap",
-    title: "SaaS / Booking / Payments / Enquiry Integration",
+    title: "Integrations & Booking",
     description:
       "Add the functions your business needs: online booking, payments, menus, or enquiry forms.",
   },

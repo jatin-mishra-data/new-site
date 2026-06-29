@@ -330,7 +330,7 @@ export default function Contact() {
               }}
             >
               <GlobeIcon />
-              Get a Free Website Audit
+              Tell Me About Your Project
             </a>
           </div>
         </div>

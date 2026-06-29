@@ -204,7 +204,7 @@ export default function Services() {
               href="#contact"
               className="inline-flex items-center gap-1 text-[length:var(--text-small)] font-medium text-[var(--accent-1)] hover:underline underline-offset-4 mt-auto self-start"
             >
-              Book a call →
+              Get in touch →
             </a>
           </div>
         ))}

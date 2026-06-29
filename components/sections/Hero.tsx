@@ -201,11 +201,11 @@ export default function Hero() {
                   aria-hidden="true"
                 />
                 <Button href={siteConfig.bookingUrl} variant="primary" className="relative">
-                  Book a Free Call
+                  Start a Conversation
                 </Button>
               </div>
               <Button href="/#contact" variant="secondary">
-                Get a Free Website Audit
+                Tell Me About Your Project
               </Button>
             </div>
 

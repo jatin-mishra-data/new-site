@@ -58,7 +58,7 @@ export default function Packages() {
           View all solutions
         </Button>
         <Button href={siteConfig.bookingUrl} variant="secondary">
-          Book a free call
+          Start a Conversation
         </Button>
       </div>
 

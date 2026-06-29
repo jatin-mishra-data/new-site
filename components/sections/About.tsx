@@ -5,7 +5,7 @@ const stats = [
   { value: "3 yrs", label: "at Bank of America" },
   { value: "9", label: "sites delivered" },
   { value: "50+", label: "published analyses" },
-  { value: "4–5", label: "businesses advised" },
+  { value: "5+", label: "businesses advised" },
 ];
 
 export default function About() {
