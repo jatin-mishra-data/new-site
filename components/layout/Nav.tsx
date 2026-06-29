@@ -97,7 +97,7 @@ export default function Nav() {
       </ul>
 
       {/* Right side: CTA + hamburger */}
-      <div className="flex items-center gap-2">
+      <div className="relative z-10 flex items-center gap-2">
         {/* Hidden on mobile — hamburger provides nav on small screens */}
         <span className="hidden md:inline-flex">
         <Button
