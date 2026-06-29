@@ -101,7 +101,7 @@ export default function Nav() {
         {/* Hidden on mobile — hamburger provides nav on small screens */}
         <span className="hidden md:inline-flex">
         <Button
-          href={`mailto:${siteConfig.email}?subject=Website%20Project%20Inquiry`}
+          href="/#contact"
           variant="secondary"
           className="text-sm !py-2 !px-5 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.2)]"
         >
@@ -119,7 +119,7 @@ export default function Nav() {
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
-          Email Me
+          Contact Me
         </Button>
         </span>
 
