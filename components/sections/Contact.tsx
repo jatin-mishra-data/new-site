@@ -88,6 +88,7 @@ export default function Contact() {
     try {
       const body = new URLSearchParams({
         "form-name": "contact",
+        "bot-field": String(fd.get("bot-field") ?? ""),
         name,
         email,
         message,
@@ -372,6 +373,7 @@ export default function Contact() {
               noValidate
               name="contact"
               method="POST"
+              action="/"
               className="relative z-10 flex flex-col gap-5"
             >
               {/* Netlify required hidden fields */}
