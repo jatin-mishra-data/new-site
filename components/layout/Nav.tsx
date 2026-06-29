@@ -171,6 +171,16 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li className="py-3">
+            <a
+              href="/#contact"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium text-[var(--text-primary)] transition-all duration-150 hover:text-[var(--accent-1)]"
+              style={{ background: "var(--glass-fill)", border: "1px solid var(--glass-border)" }}
+            >
+              Contact Me
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
