@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — all values from docs/design.md §5–§8
+   ============================================================ */
+:root {
+  /* Color — canonical values from docs/design.md §5 */
+  --bg-base:        #050816;
+  --bg-elevated:    #081226;
+  --glass-fill:     rgba(255, 255, 255, 0.06);
+  --glass-border:   rgba(77, 163, 255, 0.18);
+  --accent-1:       #2563EB;
+  --accent-2:       #4DA3FF;
+  --accent-grad:    linear-gradient(135deg, #2563EB, #4DA3FF);
+  --text-primary:   #F5F5F7;
+  --text-muted:     #A1A1AA;
+  --success:        #34D399;
+  --error:          #F87171;
+
+  /* Typography */
+  --font-heading:   var(--font-poppins), system-ui, sans-serif;
+  --font-body:      var(--font-inter),   system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Type scale */
+  --text-h1:    clamp(2.75rem, 6vw, 4.5rem);
+  --text-h2:    2.25rem;
+  --text-h3:    1.5rem;
+  --text-body:  1.0625rem;
+  --text-small: 0.875rem;
+
+  /* Spacing */
+  --section-py:   4rem;   /* 64px desktop (reduced vertical dead space) */
+  --content-max:  1200px;
+  --gutter:       1.5rem;
+
+  /* Radius */
+  --radius-card: 20px;
+  --radius-btn:  12px;
+  --radius-pill: 999px;
+}
+
+/* Tablet spacing */
+@media (max-width: 1024px) {
+  :root { --section-py: 4rem; }  /* 64px */
+}
+
+/* Mobile spacing */
+@media (max-width: 640px) {
+  :root { --section-py: 3rem; }  /* 48px */
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    background-color: var(--bg-base);       /* prevent overscroll white flash */
+    scroll-padding-top: 4rem;               /* offset for fixed nav (h-16 = 64px) */
+  }
+
+  body {
+    background-color:         var(--bg-base);
+    /* Soft ambient blue glows fixed to viewport — visible between sections as you scroll */
+    background-image:
+      radial-gradient(ellipse 60% 40% at 18% 85%, rgba(37,99,235,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 35% at 82% 14%, rgba(77,163,255,0.04) 0%, transparent 60%);
+    background-attachment:    fixed;
+    color:                    var(--text-primary);
+    font-family:              var(--font-body);
+    font-size:                var(--text-body);
+    line-height:              1.6;
+    -webkit-font-smoothing:   antialiased;
+    -moz-osx-font-smoothing:  grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.15;
+    color:       var(--text-primary);
+  }
+
+  h1 { font-size: var(--text-h1); font-weight: 700; }
+  h2 { font-size: var(--text-h2); }
+  h3 { font-size: var(--text-h3); }
+
+  ::selection {
+    background: rgba(37, 99, 235, 0.3);
+    color:      var(--text-primary);
+  }
+
+  :focus-visible {
+    outline:        2px solid var(--accent-1);
+    outline-offset: 3px;
+    border-radius:  4px;
+    box-shadow:     0 0 0 4px rgba(37, 99, 235, 0.15);
+  }
+
+  /* Silence focus ring for mouse/touch — keep it for keyboard only */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:       0.01ms !important;
+      animation-iteration-count: 1     !important;
+      transition-duration:      0.01ms !important;
+      scroll-behavior:          auto   !important;
+    }
+  }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+/* Frosted-glass surface (design.md §8) */
+@utility glass {
+  background:          var(--glass-fill);
+  border:              1px solid var(--glass-border);
+  backdrop-filter:     blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius:       var(--radius-card);
+}
+
+/* Full-width section wrapper: vertical padding + side gutters */
+@utility section-container {
+  width:          100%;
+  padding-block:  var(--section-py);
+  padding-inline: var(--gutter);
+}
+
+/* Centered max-width content column */
+@utility content-container {
+  max-width:      var(--content-max);
+  margin-inline:  auto;
+  padding-inline: var(--gutter);
+}
+
+/* Accent gradient applied to text */
+@utility gradient-text {
+  background:              var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip:         text;
+  -webkit-text-fill-color: transparent;
+  color:                   transparent;
+}
+
+/* Accent gradient as a solid background fill (CTAs, highlights) */
+@utility gradient-bg {
+  background: var(--accent-grad);
+}
+
+/* Analyst chip — JetBrains Mono monospaced label, Stitch design system */
+@utility analyst-chip {
+  font-family:    var(--font-mono);
+  font-size:      0.6875rem;
+  font-weight:    500;
+  letter-spacing: 0.1em;
+  line-height:    1;
+  text-transform: uppercase;
+}
+
+/* Ambient glow orb — absolute-positioned blurred blob for Stitch void atmosphere */
+@utility glow-orb {
+  position:       absolute;
+  border-radius:  50%;
+  filter:         blur(120px);
+  pointer-events: none;
+}
+
+/* Custom scrollbar — Stitch premium feel */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(37,99,235,0.28); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(37,99,235,0.48); }
+
+@keyframes aurora-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -30px) scale(1.06); }
+  66%       { transform: translate(-25px, 40px) scale(0.96); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes hero-reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.1; }
+}
+
+@keyframes star-sparkle {
+  0%, 100% { opacity: 0.9; }
+  50%       { opacity: 0.15; }
+}
+
+/* ============================================================
+   Mobile performance — reduce compositing cost on small screens
+   ============================================================ */
+@media (max-width: 767px) {
+  /* Stop 50+ continuous star animations */
+  .star-twinkle,
+  .star-sparkle {
+    animation: none;
+    opacity: 0.35;
+  }
+
+  /* Stop aurora bloom animation; remove will-change GPU layer pressure */
+  .hero-aurora {
+    animation: none !important;
+    will-change: auto !important;
+  }
+
+  /* Remove feTurbulence film grain — expensive rasterisation, invisible at phone size */
+  .hero-film-grain {
+    display: none;
+  }
+
+  /* background-attachment:fixed causes repaint on every scroll frame on iOS Safari */
+  body {
+    background-attachment: scroll;
+  }
+}

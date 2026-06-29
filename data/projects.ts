@@ -1,0 +1,48 @@
+import type { Project } from "@/lib/types";
+
+export const projects: Project[] = [
+  {
+    id: "sai-oneness-art-school",
+    title: "Sai Oneness Art School",
+    clientType: "School",
+    description: "Website built for student registration and online presence.",
+    tags: ["Web Design", "Registration"],
+    imageUrl: "/work/work-school-sai-oneness.png",
+    liveUrl: null,
+    detailsUrl: null,
+    comingSoon: false,
+  },
+  {
+    id: "utkal-advisors",
+    title: "Utkal Advisors",
+    clientType: "Consultancy",
+    description: "Website built for service enquiries and online presence.",
+    tags: ["Web Design", "Enquiry Form"],
+    imageUrl: "/work/work-consultancy-utkal-advisors.png",
+    liveUrl: null,
+    detailsUrl: null,
+    comingSoon: false,
+  },
+  {
+    id: "gomax",
+    title: "GOMAX",
+    clientType: "Furniture & Furnishing",
+    description: "Website built for service enquiries and online presence.",
+    tags: ["Web Design", "Enquiry Form"],
+    imageUrl: "/work/work-furniture-gomax.png",
+    liveUrl: null,
+    detailsUrl: null,
+    comingSoon: false,
+  },
+  {
+    id: "coming-soon",
+    title: "Coming Soon",
+    clientType: "",
+    description: "",
+    tags: [],
+    imageUrl: null,
+    liveUrl: null,
+    detailsUrl: null,
+    comingSoon: true,
+  },
+];
