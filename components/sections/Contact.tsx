@@ -372,8 +372,6 @@ export default function Contact() {
               noValidate
               name="contact"
               method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
               className="relative z-10 flex flex-col gap-5"
             >
               {/* Netlify required hidden fields */}
