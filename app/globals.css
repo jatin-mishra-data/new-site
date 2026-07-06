@@ -70,7 +70,8 @@
     background-image:
       radial-gradient(ellipse 60% 40% at 18% 85%, rgba(37,99,235,0.06) 0%, transparent 60%),
       radial-gradient(ellipse 50% 35% at 82% 14%, rgba(77,163,255,0.04) 0%, transparent 60%);
-    background-attachment:    fixed;
+    /* background-attachment: fixed removed — was forcing a repaint on every scroll frame
+       on desktop too; these glows now scroll with the page like any normal background. */
     color:                    var(--text-primary);
     font-family:              var(--font-body);
     font-size:                var(--text-body);
@@ -166,7 +167,7 @@
 @utility glass {
   background:          var(--glass-fill);
   border:              1px solid var(--glass-border);
-  backdrop-filter:     blur(12px);
+  backdrop-filter:     blur(8px);
   border-radius:       var(--radius-card);
 }
 
