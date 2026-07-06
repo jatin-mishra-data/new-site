@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
+import PageBackground from "@/components/background/PageBackground";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -13,11 +14,16 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-// Required: set NEXT_PUBLIC_SITE_URL in Netlify env vars before production launch
+// Required: set NEXT_PUBLIC_SITE_URL in Netlify env vars before production launch.
+// Guard only fails the build on an actual deployment platform (Netlify sets NETLIFY=true;
+// CI covers other CI runners) — a plain local `next build` verification still needs to work
+// without that var set, so it falls back to localhost there instead of throwing.
+const isDeployedBuild = process.env.NETLIFY === "true" || process.env.CI === "true";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.NODE_ENV === "production"
-    ? (() => { throw new Error("NEXT_PUBLIC_SITE_URL must be set in production"); })()
+  (isDeployedBuild
+    ? (() => { throw new Error("NEXT_PUBLIC_SITE_URL must be set in production deployments"); })()
     : "http://localhost:3000");
 
 const META_TITLE = "Jatin Mishra - Freelance Website & Business Consulting";
@@ -81,6 +87,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full">
+        <PageBackground />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[var(--bg-elevated)] focus:text-[var(--text-primary)] focus:border focus:border-[var(--accent-1)] focus:rounded-[var(--radius-btn)] focus:text-sm focus:font-medium focus:outline-none"

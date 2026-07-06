@@ -18,24 +18,13 @@ const toolCategories = [
 export default function Tools() {
   return (
     <SectionWrapper id="tools" className="relative overflow-hidden">
-      {/* ── Background layer ── */}
+      {/* ── HUD accent layer (over the shared page background) ── */}
       <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg,#06080f 0%,#080b1a 40%,#06080f 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "rgba(8,11,20,0.12)" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(59,130,246,0.12) 0%, transparent 60%)",
+              "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(59,130,246,0.08) 0%, transparent 60%)",
           }}
         />
         <div
@@ -69,7 +58,7 @@ export default function Tools() {
 
       {/* ── Header ── */}
       <div className="text-center mb-10">
-        <span className="inline-block mb-4 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]">
+        <span className="inline-block mb-4 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]">
           TOOLS
         </span>
         <h2 className="font-[family-name:var(--font-poppins)] text-[clamp(2rem,5vw,3rem)] font-semibold gradient-text tracking-tight">
@@ -90,11 +79,11 @@ export default function Tools() {
                   key={tool}
                   className="relative overflow-hidden inline-flex items-center px-5 py-2.5 rounded-full text-sm font-medium text-white/80"
                   style={{
-                    border: "1.5px solid rgba(96,165,250,0.35)",
+                    border: "1.5px solid rgba(96,165,250,0.22)",
                     boxShadow:
-                      "inset 0 0 60px rgba(59,130,246,0.08), 0 0 20px rgba(59,130,246,0.06), 0 4px 12px rgba(0,0,0,0.3)",
+                      "inset 0 0 40px rgba(59,130,246,0.05), 0 4px 16px rgba(0,0,0,0.4)",
                     background:
-                      "linear-gradient(135deg, rgba(59,130,246,0.10) 0%, rgba(59,130,246,0.03) 50%, transparent 100%)",
+                      "linear-gradient(135deg, rgba(12,14,20,0.68) 0%, rgba(12,14,20,0.55) 100%)",
                   }}
                 >
                   <span

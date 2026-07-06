@@ -23,7 +23,11 @@ const securityHeaders = [
   { key: "X-Frame-Options",              value: "DENY" },
   { key: "Referrer-Policy",              value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy",           value: "camera=(), microphone=(), geolocation=(), payment=()" },
-  { key: "Strict-Transport-Security",    value: "max-age=31536000; includeSubDomains" },
+  // HSTS only makes sense once the site is actually served over HTTPS in production —
+  // sending it during local dev (http://localhost) has no effect but is misleading.
+  ...(process.env.NODE_ENV === "production"
+    ? [{ key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" }]
+    : []),
   { key: "Content-Security-Policy",      value: csp },
 ];
 

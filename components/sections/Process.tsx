@@ -74,7 +74,7 @@ const Badge = ({ n }: { n: number }) => (
   <div
     className="relative w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg shrink-0 z-10"
     style={{
-      background: "radial-gradient(circle at 30% 30%, #2563EB 0%, #1D4ED8 60%, #1E3A8A 100%)",
+      background: "radial-gradient(circle at 30% 30%, var(--accent-primary, var(--accent-1)) 0%, #1D4ED8 60%, #1E3A8A 100%)",
       border: "2px solid rgba(147,197,253,0.55)",
       color: "#fff",
       boxShadow: "0 0 30px rgba(37,99,235,0.6), inset 0 0 20px rgba(147,197,253,0.35)",
@@ -92,7 +92,7 @@ const IconBadge = ({ icon }: { icon: ReactNode }) => (
   <div
     className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-white mb-5"
     style={{
-      background: "linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #1e40af 100%)",
+      background: "linear-gradient(135deg, #1d4ed8 0%, var(--accent-primary, var(--accent-1)) 50%, #1e40af 100%)",
       boxShadow: "0 0 28px rgba(37,99,235,0.5), inset 0 1px 0 rgba(255,255,255,0.2)",
     }}
   >
@@ -104,10 +104,10 @@ const PremiumCard = ({ children, className = "", style }: { children: ReactNode;
     <div
       className={`relative overflow-hidden transition-all duration-300 hover:-translate-y-1 ${className}`}
       style={{
-        background: "linear-gradient(180deg, rgba(15,23,42,0.72) 0%, rgba(8,11,20,0.85) 100%)",
-        border: "1.5px solid rgba(59,130,246,0.35)",
+        background: "linear-gradient(180deg, rgba(12,14,20,0.78) 0%, rgba(8,10,16,0.92) 100%)",
+        border: "1.5px solid rgba(59,130,246,0.24)",
         borderRadius: "var(--radius-card, 16px)",
-        boxShadow: "0 0 40px rgba(37,99,235,0.12), inset 0 1px 0 rgba(147,197,253,0.15)",
+        boxShadow: "0 0 28px rgba(37,99,235,0.08), inset 0 1px 0 rgba(147,197,253,0.10)",
         ...style,
       }}
     >
@@ -152,19 +152,31 @@ const trustItems = [
 export default function Process() {
   return (
     <SectionWrapper id="process" className="relative overflow-hidden">
-      {/* ── Section background fill ── */}
-      <div
-        className="absolute inset-0 -z-20"
-        style={{ background: "linear-gradient(180deg, #05070d 0%, #070a14 50%, #05070d 100%)" }}
-        aria-hidden="true"
-      />
+      {/* ── Section-local cinematic background: daylight mountain road ── */}
+      <div className="absolute inset-0 pointer-events-none -z-20" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/backgrounds/process-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(8,10,16,0.9) 0%, rgba(8,10,16,0.35) 20%, rgba(8,10,16,0.35) 80%, rgba(8,10,16,0.9) 100%)",
+          }}
+        />
+      </div>
 
-      {/* ── Cinematic background ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      {/* ── HUD accent layer (over the section-local background) ── */}
+      <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         {/* Soft ambient glow behind timeline */}
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[700px] rounded-full"
-          style={{ background: "radial-gradient(ellipse, rgba(37,99,235,0.20) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 65%)" }}
         />
 
         {/* Dotted texture patches */}
@@ -213,7 +225,7 @@ export default function Process() {
             stroke="url(#process-arc-main)"
             strokeWidth="2.5"
             fill="none"
-            opacity="0.8"
+            opacity="0.45"
           />
           {/* Bright upper-right streak */}
           <path
@@ -221,7 +233,7 @@ export default function Process() {
             stroke="url(#process-arc-bright)"
             strokeWidth="3.5"
             fill="none"
-            opacity="0.85"
+            opacity="0.5"
           />
           {/* Bottom-right arc */}
           <path
@@ -229,7 +241,7 @@ export default function Process() {
             stroke="url(#process-arc-main)"
             strokeWidth="2"
             fill="none"
-            opacity="0.55"
+            opacity="0.32"
           />
           {/* Bottom-left arc */}
           <path
@@ -237,7 +249,7 @@ export default function Process() {
             stroke="url(#process-arc-main)"
             strokeWidth="2"
             fill="none"
-            opacity="0.55"
+            opacity="0.32"
           />
         </svg>
       </div>
@@ -245,9 +257,9 @@ export default function Process() {
       {/* ── Header ── */}
       <div className="relative z-10 text-center mb-20">
         <span
-          className="inline-block mb-5 px-4 py-1.5 rounded-full text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]"
+          className="inline-block mb-5 px-4 py-1.5 rounded-full text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]"
           style={{
-            background: "rgba(15,23,42,0.55)",
+            background: "rgba(12,14,20,0.55)",
             border: "1px solid rgba(96,165,250,0.3)",
           }}
         >
@@ -337,7 +349,7 @@ export default function Process() {
       {/* ── CTA ── */}
       <div className="relative z-10 flex flex-col items-center gap-5 text-center mb-16">
         <div
-          className="w-14 h-14 rounded-full flex items-center justify-center text-[var(--accent-1)]"
+          className="w-14 h-14 rounded-full flex items-center justify-center text-[color:var(--accent-primary,var(--accent-1))]"
           style={{
             background: "radial-gradient(circle, rgba(37,99,235,0.3) 0%, transparent 70%)",
             boxShadow: "0 0 35px rgba(37,99,235,0.45)",
@@ -354,7 +366,7 @@ export default function Process() {
         <a
           href={siteConfig.bookingUrl}
           className="group inline-flex items-center rounded-full overflow-hidden transition-transform duration-200 hover:-translate-y-0.5"
-          style={{ background: "linear-gradient(90deg, #2563eb 0%, #3b82f6 100%)" }}
+          style={{ background: "linear-gradient(90deg, var(--accent-primary, var(--accent-1)) 0%, #3b82f6 100%)" }}
         >
           <span className="px-6 py-3 text-white font-semibold">Start a Conversation</span>
           <span className="px-4 py-3 border-l border-white/20 text-white flex items-center justify-center">
@@ -370,7 +382,7 @@ export default function Process() {
       <div
         className="relative z-10 w-full"
         style={{
-          background: "linear-gradient(180deg, rgba(15,23,42,0.65) 0%, rgba(8,11,20,0.75) 100%)",
+          background: "linear-gradient(180deg, rgba(12,14,20,0.65) 0%, rgba(8,10,16,0.75) 100%)",
           borderTop: "1px solid rgba(96,165,250,0.22)",
           borderBottom: "1px solid rgba(96,165,250,0.22)",
           boxShadow: "inset 0 1px 0 rgba(147,197,253,0.08)",
@@ -385,7 +397,7 @@ export default function Process() {
                   style={{ background: "rgba(96,165,250,0.25)" }}
                 />
               )}
-              <span className="text-[var(--accent-1)]">{item.icon}</span>
+              <span className="text-[color:var(--accent-primary,var(--accent-1))]">{item.icon}</span>
               <span className="text-sm font-bold tracking-widest text-[var(--text-muted)]">
                 {item.text}
               </span>

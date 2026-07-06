@@ -15,11 +15,28 @@ export default function Work() {
   return (
     <SectionWrapper id="work" className="relative overflow-hidden">
 
-
+      {/* ── Section-local cinematic background: blue-hour road ── */}
+      <div className="absolute inset-0 pointer-events-none -z-20" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/backgrounds/work-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(8,10,16,0.9) 0%, rgba(8,10,16,0.45) 20%, rgba(8,10,16,0.45) 80%, rgba(8,10,16,0.9) 100%)",
+          }}
+        />
+      </div>
 
       {/* ── Header ── */}
       <div className="text-center mb-16">
-        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]">
+        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]">
           Recent Work
         </span>
         <h2
@@ -39,7 +56,8 @@ export default function Work() {
         {shipped.map((project) => (
           <div
             key={project.id}
-            className="group glass flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:[border-color:rgba(96,165,250,0.55)] hover:[box-shadow:0_0_40px_rgba(59,130,246,0.20),0_10px_40px_rgba(0,0,0,0.35)]"
+            className="group glass flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:[border-color:rgba(96,165,250,0.45)] hover:[box-shadow:0_0_36px_rgba(59,130,246,0.16),0_10px_40px_rgba(0,0,0,0.4)]"
+            style={{ background: "rgba(12,14,20,0.62)" }}
           >
 
             {/* Screenshot */}
@@ -58,7 +76,7 @@ export default function Work() {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)] opacity-40">
+                  <span className="text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))] opacity-40">
                     Coming Soon
                   </span>
                 </div>
@@ -76,11 +94,11 @@ export default function Work() {
 
 
               <div>
-                <p className="text-[length:var(--text-small)] text-[var(--accent-1)] font-medium uppercase tracking-wider mb-1">
+                <p className="text-[length:var(--text-small)] text-[color:var(--accent-primary,var(--accent-1))] font-medium uppercase tracking-wider mb-1">
                   {project.clientType}
                 </p>
                 <h3
-                  className="font-[family-name:var(--font-poppins)] font-semibold text-[var(--text-primary)] leading-snug transition-colors duration-200 group-hover:text-[var(--accent-1)]"
+                  className="font-[family-name:var(--font-poppins)] font-semibold text-[var(--text-primary)] leading-snug transition-colors duration-200 group-hover:text-[color:var(--accent-primary,var(--accent-1))]"
                   style={{ fontSize: "var(--text-h3)" }}
                 >
                   {project.title}
@@ -104,7 +122,7 @@ export default function Work() {
                   href={project.liveUrl || project.detailsUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 self-start text-[length:var(--text-small)] font-medium text-[var(--accent-1)] transition-colors duration-200 hover:underline underline-offset-4"
+                  className="inline-flex items-center gap-1.5 self-start text-[length:var(--text-small)] font-medium text-[color:var(--accent-primary,var(--accent-1))] transition-colors duration-200 hover:underline underline-offset-4"
                   aria-label={`View ${project.title} project`}
                 >
                   Visit site
@@ -123,7 +141,7 @@ export default function Work() {
       <div className="mt-12 text-center">
         <a
           href="/solutions"
-          className="inline-flex items-center gap-2 text-[var(--accent-1)] font-medium text-[0.9375rem] transition-colors duration-200 hover:underline underline-offset-4"
+          className="inline-flex items-center gap-2 text-[color:var(--accent-primary,var(--accent-1))] font-medium text-[0.9375rem] transition-colors duration-200 hover:underline underline-offset-4"
         >
           View more solutions →
         </a>
@@ -131,7 +149,7 @@ export default function Work() {
 
       {/* ── Stat band — résumé-stated counts only ── */}
       <div className="relative mt-16" aria-hidden="true">
-        <div className="w-full glass py-7 px-8 rounded-xl">
+        <div className="w-full glass py-7 px-8 rounded-xl" style={{ background: "rgba(12,14,20,0.62)" }}>
           <div className="flex items-center justify-center gap-x-8 gap-y-4 flex-wrap">
             {stats.map((s, i) => (
               <div key={s.label} className="flex items-center gap-5">
@@ -140,7 +158,7 @@ export default function Work() {
                 )}
                 <div className="flex items-center gap-4">
                   <span
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(96,165,250,0.25)] bg-[rgba(59,130,246,0.10)] text-[var(--accent-1)] shrink-0"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(96,165,250,0.25)] bg-[rgba(59,130,246,0.10)] text-[color:var(--accent-primary,var(--accent-1))] shrink-0"
                     aria-hidden="true"
                   >
                     {i === 0 ? (

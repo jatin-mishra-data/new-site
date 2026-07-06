@@ -12,7 +12,10 @@ export default function Footer() {
     siteConfig.email === "PLACEHOLDER_EMAIL" ? null : siteConfig.email;
 
   return (
-    <footer className="relative overflow-hidden border-t border-[var(--glass-border)] bg-[var(--glass-fill)] backdrop-blur-md">
+    <footer
+      className="relative overflow-hidden border-t border-[var(--glass-border)] backdrop-blur-md"
+      style={{ background: "rgba(12,14,20,0.72)" }}
+    >
       {/* Ambient — very faint top-center blue, ties footer to Contact above */}
       <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         <div
@@ -20,7 +23,7 @@ export default function Footer() {
           style={{
             width: "500px",
             height: "160px",
-            background: "var(--accent-1)",
+            background: "var(--accent-primary, var(--accent-1))",
             filter: "blur(90px)",
             opacity: 0.04,
             top: "-80px",

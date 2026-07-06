@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import { services } from "@/data/services";
@@ -35,26 +34,34 @@ export default function Services() {
   return (
     <SectionWrapper id="services" className="relative overflow-hidden">
 
-      {/* ── Background layer ── */}
-      <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
-        <Image
-          src="/images/services-bg-full.webp"
-          alt=""
-          fill
-          className="object-cover opacity-90"
-          sizes="100vw"
+      {/* ── Section-local cinematic background: bright morning wide valley ── */}
+      <div className="absolute inset-0 pointer-events-none -z-20" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/backgrounds/services-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         />
         <div
           className="absolute inset-0"
-          style={{ background: "rgba(8,11,20,0.12)" }}
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(8,10,16,0.9) 0%, rgba(8,10,16,0.25) 20%, rgba(8,10,16,0.25) 80%, rgba(8,10,16,0.9) 100%)",
+          }}
         />
+      </div>
+
+      {/* ── HUD accent layer (over the section-local background) ── */}
+      <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         {/* Sweeping orbit arc */}
         <svg
           className="absolute inset-0 w-full h-full"
           viewBox="0 0 1440 900"
           fill="none"
           aria-hidden="true"
-          style={{ opacity: 0.7 }}
+          style={{ opacity: 0.4 }}
         >
           <defs>
             <linearGradient id="orbitGlow" x1="0" y1="0" x2="1" y2="0">
@@ -102,14 +109,14 @@ export default function Services() {
             top: "55%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            background: "radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, transparent 60%)",
           }}
         />
       </div>
 
       {/* ── Header ── */}
       <div className="text-center mb-16">
-        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]">
+        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]">
           What I Build For You
         </span>
         <h2
@@ -130,10 +137,11 @@ export default function Services() {
         {services.map((service) => (
           <div
             key={service.id}
-            className="glass relative flex flex-col p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:[border-color:rgba(96,165,250,0.60)] hover:[box-shadow:inset_0_0_60px_rgba(59,130,246,0.14),0_0_50px_rgba(59,130,246,0.28),0_0_20px_rgba(99,102,241,0.18),0_10px_40px_rgba(0,0,0,0.35)]"
+            className="glass relative flex flex-col p-8 lg:p-10 overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:[border-color:rgba(96,165,250,0.45)] hover:[box-shadow:inset_0_0_50px_rgba(59,130,246,0.10),0_0_36px_rgba(59,130,246,0.20),0_10px_40px_rgba(0,0,0,0.45)]"
             style={{
-              border: "1.5px solid rgba(96,165,250,0.35)",
-              boxShadow: "inset 0 0 60px rgba(59,130,246,0.10), 0 0 30px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.25)",
+              background: "rgba(12,14,20,0.62)",
+              border: "1.5px solid rgba(96,165,250,0.22)",
+              boxShadow: "inset 0 0 50px rgba(37,99,235,0.06), 0 8px 32px rgba(0,0,0,0.4)",
               minHeight: "400px",
             }}
           >
@@ -171,8 +179,8 @@ export default function Services() {
             <div
               className="relative w-14 h-14 rounded-full flex items-center justify-center text-white shrink-0 mb-5"
               style={{
-                background: "linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #1D4ED8 100%)",
-                boxShadow: "0 0 32px rgba(59,130,246,0.65), 0 0 16px rgba(59,130,246,0.40), inset 0 1px 0 rgba(255,255,255,0.30)",
+                background: "linear-gradient(135deg, var(--accent-primary, var(--accent-1)) 0%, var(--accent-2, #3B82F6) 100%)",
+                boxShadow: "0 0 24px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.25)",
               }}
             >
               {icons[service.icon]}
@@ -202,7 +210,7 @@ export default function Services() {
             {/* CTA — pushed to card bottom via mt-auto */}
             <a
               href="#contact"
-              className="inline-flex items-center gap-1 text-[length:var(--text-small)] font-medium text-[var(--accent-1)] hover:underline underline-offset-4 mt-auto self-start"
+              className="inline-flex items-center gap-1 text-[length:var(--text-small)] font-medium text-[color:var(--accent-primary,var(--accent-1))] hover:underline underline-offset-4 mt-auto self-start"
             >
               Get in touch →
             </a>

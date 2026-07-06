@@ -10,7 +10,7 @@
 
 > This document defines **how** we build the product: architecture, folder structure, libraries, data models, component contracts, integrations, performance/SEO implementation, and deployment. It is written to be actionable for implementation via **VS Code + Claude Code** — which is where the **final UI is built**. (Google Stitch, if used at all, is only for visual exploration / UI direction; it does not produce shipped code.) Plain-English term definitions live in `plan.md` §14. **Honest-claims policy (`plan.md` §10) is a build constraint, not just copy guidance.**
 
-> **Phase 1 scope (locked):** ship **only the single landing page `/`** (section order Hero → Services → Process → Work → Packages → About → Tools → Contact → Footer), with a **static/CSS hero only**. **No Three.js, R3F, Spline, WebGL detection, 3D error boundary, or `/work/[slug]` / `/audit` / `/resume` routes in Phase 1.** Everything tagged "Phase 2" below is **documented for later, not scaffolded now** — keep Phase 1 dependencies lean.
+> **Phase 1 scope (locked):** ship **only the single landing page `/`** (section order Hero → Services → Process → Work → Packages → About → Tools → Contact → Footer), with a **static, single photographic background image + progressive CSS dark-overlay layers** carrying the hero and full page (see §8) — still no JS rendering engine, no client-side image logic. **No Three.js, R3F, Spline, WebGL detection, 3D error boundary, or `/work/[slug]` / `/audit` / `/resume` routes in Phase 1.** Everything tagged "Phase 2" below is **documented for later, not scaffolded now** — keep Phase 1 dependencies lean.
 
 ---
 
@@ -60,7 +60,7 @@ Build/Deploy:
 | Styling | **Tailwind CSS** v3.x + custom config | P1 | Design tokens encoded as theme |
 | Icons | **lucide-react** (UI) + **simple-icons** (brand/tool logos) | P1 | Tree-shakeable |
 | Animation | **Framer Motion** | P1 | `whileInView` entrances, reduced-motion aware |
-| Hero visual | **CSS/SVG** (no library) | P1 | Gradient mesh/aurora or glass-card stack — the entire hero |
+| Hero / page background | **Single static photographic image** (`next/image`, no library) + CSS overlay | P1 | One optimized image served across hero + page (see §8), no JS rendering engine |
 | Forms | **Formspree** (default) — alt **EmailJS** | P1 | No backend |
 | Form validation | **react-hook-form** + **zod** | P1 | Client-side validation + schema |
 | Booking | **Calendly** (default) / **Cal.com** | P1 | Simple link in Phase 1 (no embedded script) |
@@ -108,8 +108,8 @@ new-site/
 │   │   ├── StatBand.tsx
 │   │   ├── Reveal.tsx           # Framer Motion whileInView wrapper (reduced-motion aware)
 │   │   └── CTAButton.tsx        # "Book a Free Call" primary, reused everywhere
-│   ├── hero/
-│   │   └── HeroVisualStatic.tsx # Phase 1 CSS/SVG visual — the entire hero visual
+│   ├── background/
+│   │   └── PageBackground.tsx   # Phase 1: renders the full-page photographic background + progressive dark overlay
 │   └── form/
 │       └── ContactForm.tsx      # react-hook-form + zod + honeypot + states
 ├── data/
@@ -122,6 +122,7 @@ new-site/
 │   ├── types.ts                 # Service, Package, Project types
 │   └── motion.ts                # shared variants + reduced-motion helper
 ├── public/
+│   ├── backgrounds/              # full-page background image + responsive crops (webp), per assets.md §2a
 │   ├── work/                    # project images (webp)
 │   ├── og.png                   # 1200x630 social card
 │   └── favicon set
@@ -154,14 +155,15 @@ export default {
     extend: {
       colors: {
         base: "#0A0A0A",
+        photoOverlay: { top: "rgba(10,10,10,0.35)", bottom: "rgba(10,10,10,0.92)" },
         elevated: "#141417",
-        glass: { fill: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.12)" },
-        accent: { 1: "#6C63FF", 2: "#FF6584" },
+        glass: { fill: "rgba(12,14,20,0.55)", border: "rgba(255,255,255,0.12)" },
+        accent: { primary: "#6C63FF" /* refined blue derived from existing indigo palette — tuned during implementation, see design.md §5 */ },
         text: { primary: "#F5F5F7", muted: "#A1A1AA" },
         success: "#34D399",
       },
       backgroundImage: {
-        "accent-grad": "linear-gradient(135deg,#6C63FF,#FF6584)",
+        "accent-grad": "linear-gradient(135deg, var(--accent-primary), #FF6584)",
       },
       fontFamily: { heading: ["var(--font-poppins)"], body: ["var(--font-inter)"] },
       borderRadius: { card: "20px", btn: "12px", pill: "999px" },
@@ -187,8 +189,8 @@ export default {
 | `MobileMenu` | client | Hand-built full-screen overlay; focus-trapped; closes on nav click. (Use Radix Dialog only if hand-built focus management proves insufficient.) |
 | `CTAButton` | client | Label default "Book a Free Call"; `href` = booking URL; analytics event on click |
 | `Button` | server | `variant: primary (accent-grad) \| secondary (glass/outline) \| ghost` |
-| `Hero` | server | Composes copy + `HeroVisualStatic` (Phase 1: static visual only) |
-| `HeroVisualStatic` | server | Pure CSS/SVG; no JS dependency — the entire Phase 1 hero visual |
+| `Hero` | server | Composes copy over the shared `PageBackground` (Phase 1: static image + overlay, no separate hero-only visual) |
+| `PageBackground` | server | Renders the single full-page photographic image (`next/image`, `priority` in the hero viewport) + progressive CSS dark-overlay layers (see §8); mounted once at the page/layout level so hero and later sections share one continuous image |
 | `HeroVisual3D` | — | **Phase 2+ only — not built in Phase 1.** Would be a client component, dynamically imported `ssr:false`, gated by WebGL/reduced-motion/viewport, falling back to static |
 | `Services` | server | Maps `data/services.ts`; each tile → `CTAButton` |
 | `Process` | server | Maps 5 steps; horizontal/vertical timeline |
@@ -271,23 +273,27 @@ NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
 
 ---
 
-## 8. Hero Visual Implementation
+## 8. Page Background & Hero Visual Implementation
 
-### 8.1 Phase 1 (build now) — static CSS/SVG only
-- `HeroVisualStatic` is the **entire** hero visual: an animated gradient mesh/aurora using layered CSS `radial-gradient`s + slow `@keyframes` drift, or a stack of `GlassCard`s with subtle float. Pure CSS — zero JS, instant paint, no fallback needed. Animation disabled under reduced-motion.
-- **Phase 1 has no 3D code at all:** no Three.js/R3F/Spline, no `webgl.ts`, no `HeroVisual3D`, no error boundary. The static visual cannot "fail," so none of that is required.
+### 8.1 Phase 1 (build now) — single static photographic background + overlay
+- `PageBackground` renders **one** optimized photographic image via `next/image` (canonical asset: `public/backgrounds/bg-main.webp`, or the equivalent canonical filename defined in `assets.md` §2a) plus responsive tablet/mobile crops (`bg-main-tablet.webp`, `bg-main-mobile.webp`), selected via `sizes`/`srcSet` per breakpoint. It is mounted once (page/layout level, positioned behind all sections via CSS, e.g. `fixed`/`absolute` + `z-index`) so the hero and every later section share the same continuous image rather than each section loading its own asset.
+- **Progressive dark overlay:** one or more CSS gradient/scrim layers sit between the image and content. Overlay opacity is lightest near the hero (`--bg-photo-overlay-top`) and increases down the page toward Contact/Footer (`--bg-photo-overlay-bottom`), implemented as a single tall `linear-gradient` (or a couple of section-anchored gradient stops) — not per-section background images. This is pure CSS, zero JS.
+- **Responsive positioning/cropping:** desktop uses the full-resolution crop; tablet/mobile breakpoints swap to their pre-cropped assets (via `next/image` `sizes` + art-direction, e.g. `<picture>`-style breakpoint sources) so the focal point (road/horizon detail) stays framed correctly and never drifts behind body copy. No client-side cropping logic — crops are pre-rendered image assets, not computed in the browser.
+- The image is decorative (`alt=""`), contributes no information beyond what's in the text, and depends entirely on its overlay for text contrast — the overlay must ship together with the image, never without it.
+- Zero JS rendering engine, instant paint, no fallback/error-boundary needed — a static image asset cannot "fail" the way a WebGL context can. Any accompanying ambient motion (e.g. a very slow overlay/gradient drift) is disabled under reduced-motion.
+- **Phase 1 has no 3D code at all:** no Three.js/R3F/Spline, no `webgl.ts`, no `HeroVisual3D`, no error boundary — none of that is required for a static image.
 
 ### 8.2 Phase 2 (optional — documented only, NOT built now) — R3F / Spline
 > The following is a forward spec for a possible later enhancement. None of it is scaffolded in Phase 1.
 - `HeroVisual3D` dynamically imported with `ssr:false`, rendered only when ALL true: WebGL supported, not `prefers-reduced-motion`, viewport ≥ 1024px, hero in view.
 - Scene: single low-poly glass icosahedron or "JM" monogram; slow rotation + cursor tilt; `frameloop="demand"` or pause when off-screen (IntersectionObserver).
-- Budget: dynamic chunk + assets < 300KB; wrapped in an `ErrorBoundary` → renders `HeroVisualStatic` on any failure.
+- Budget: dynamic chunk + assets < 300KB; wrapped in an `ErrorBoundary` → renders `PageBackground` on any failure.
 - Spline alt: `@splinetool/react-spline` with a `scene` URL; same gating + fallback.
 - Fallback chain (Phase 2 only):
 ```
 support && !reducedMotion && desktop && inView → <HeroVisual3D/>
-else                                            → <HeroVisualStatic/>
-3D import/render error (ErrorBoundary)          → <HeroVisualStatic/>
+else                                            → <PageBackground/>
+3D import/render error (ErrorBoundary)          → <PageBackground/>
 ```
 
 ---
@@ -325,7 +331,7 @@ Maps to `plan.md` §7 phases; chunks within a phase can be built in parallel.
 - C1: Scaffold (Next.js+TS+Tailwind), tokens in config, fonts, globals + reduced-motion. *(blocks others)*
 - C2: UI primitives (`Button`, `GlassCard`, `SectionWrapper`, `Pill`, `CTAButton`, `Reveal`).
 - C3: `Nav` + `MobileMenu`.
-- C4: `HeroVisualStatic` + `Hero`.
+- C4: `PageBackground` + `Hero`.
 - C5: Section shells (Services, Process, Work, Packages, About, Tools, Footer) with placeholder data files.
 - C6: `ContactForm` + Formspree wiring + honeypot.
 

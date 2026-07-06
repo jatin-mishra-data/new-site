@@ -12,7 +12,24 @@ export default function About() {
   return (
     <SectionWrapper id="about" className="relative overflow-hidden">
 
-
+      {/* ── Section-local cinematic background: starry night / Milky Way road ── */}
+      <div className="absolute inset-0 pointer-events-none -z-20" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/backgrounds/about-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(8,10,16,0.9) 0%, rgba(8,10,16,0.55) 20%, rgba(8,10,16,0.55) 80%, rgba(8,10,16,0.9) 100%)",
+          }}
+        />
+      </div>
 
       <div className="grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-20">
 
@@ -49,10 +66,10 @@ export default function About() {
         </div>
 
         {/* ── Bio + interests ── */}
-        <div className="glass flex flex-col gap-8 p-8 lg:p-10">
+        <div className="glass flex flex-col gap-8 p-8 lg:p-10" style={{ background: "rgba(12,14,20,0.62)" }}>
           {/* Eyebrow + heading */}
           <div>
-            <span className="inline-block mb-4 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]">
+            <span className="inline-block mb-4 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]">
               ABOUT
             </span>
             <h2
@@ -81,7 +98,7 @@ export default function About() {
       </div>
 
       {/* ── Stats row — full width, balanced ── */}
-      <div className="glass mt-12 grid grid-cols-2 sm:grid-cols-4 gap-5 p-6 sm:p-8">
+      <div className="glass mt-12 grid grid-cols-2 sm:grid-cols-4 gap-5 p-6 sm:p-8" style={{ background: "rgba(12,14,20,0.62)" }}>
         {stats.map((s) => (
           <div key={s.label}>
             <p

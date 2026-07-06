@@ -113,27 +113,39 @@ export default function Contact() {
 
   return (
     <SectionWrapper id="contact" className="relative overflow-hidden">
-      {/* ── Section background fill ── */}
-      <div
-        className="absolute inset-0 -z-20"
-        style={{ background: "linear-gradient(180deg, #05070d 0%, #070a14 50%, #05070d 100%)" }}
-        aria-hidden="true"
-      />
+      {/* ── Section-local cinematic background: darkest late-night road ── */}
+      <div className="absolute inset-0 pointer-events-none -z-20" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/backgrounds/contact-bg.webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(8,10,16,0.92) 0%, rgba(8,10,16,0.75) 20%, rgba(8,10,16,0.75) 80%, rgba(8,10,16,0.92) 100%)",
+          }}
+        />
+      </div>
 
-      {/* ── Cinematic background ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      {/* ── HUD accent layer (over the section-local background) ── */}
+      <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         {/* Soft ambient glows */}
         <div
           className="absolute top-1/2 left-0 w-[700px] h-[700px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(37,99,235,0.14) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(37,99,235,0.09) 0%, transparent 65%)",
             transform: "translate(-40%, -50%)",
           }}
         />
         <div
           className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 65%)",
             transform: "translate(35%, 35%)",
           }}
         />
@@ -174,7 +186,7 @@ export default function Contact() {
             stroke="url(#contact-arc-left)"
             strokeWidth="2.5"
             fill="none"
-            opacity="0.75"
+            opacity="0.4"
           />
           {/* Right arc */}
           <path
@@ -182,7 +194,7 @@ export default function Contact() {
             stroke="url(#contact-arc-right)"
             strokeWidth="2.5"
             fill="none"
-            opacity="0.75"
+            opacity="0.4"
           />
         </svg>
       </div>
@@ -194,9 +206,9 @@ export default function Contact() {
         <div className="flex flex-col gap-8 lg:pt-2">
           <div>
             <span
-              className="inline-block mb-5 px-4 py-1.5 rounded-full text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]"
+              className="inline-block mb-5 px-4 py-1.5 rounded-full text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]"
               style={{
-                background: "rgba(15,23,42,0.55)",
+                background: "rgba(12,14,20,0.55)",
                 border: "1px solid rgba(96,165,250,0.3)",
               }}
             >
@@ -221,9 +233,9 @@ export default function Contact() {
             {emailDisplay && (
               <div className="flex items-center gap-4">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--accent-1)] shrink-0"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-[color:var(--accent-primary,var(--accent-1))] shrink-0"
                   style={{
-                    background: "rgba(15,23,42,0.65)",
+                    background: "rgba(12,14,20,0.65)",
                     border: "1px solid rgba(96,165,250,0.25)",
                   }}
                 >
@@ -237,7 +249,7 @@ export default function Contact() {
                     href={gmailUrl ?? "#contact"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[var(--text-primary)] hover:text-[var(--accent-1)] transition-colors"
+                    className="text-[var(--text-primary)] hover:text-[color:var(--accent-primary,var(--accent-1))] transition-colors"
                   >
                     {emailDisplay}
                   </a>
@@ -248,9 +260,9 @@ export default function Contact() {
             {/* Response time */}
             <div className="flex items-center gap-4">
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--accent-1)] shrink-0"
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-[color:var(--accent-primary,var(--accent-1))] shrink-0"
                 style={{
-                  background: "rgba(15,23,42,0.65)",
+                  background: "rgba(12,14,20,0.65)",
                   border: "1px solid rgba(96,165,250,0.25)",
                 }}
               >
@@ -267,9 +279,9 @@ export default function Contact() {
             {socials.length > 0 && (
               <div className="flex items-center gap-4">
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--accent-1)] shrink-0"
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-[color:var(--accent-primary,var(--accent-1))] shrink-0"
                   style={{
-                    background: "rgba(15,23,42,0.65)",
+                    background: "rgba(12,14,20,0.65)",
                     border: "1px solid rgba(96,165,250,0.25)",
                   }}
                 >
@@ -290,9 +302,9 @@ export default function Contact() {
                         href={s.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 min-h-[44px] rounded-full text-[length:var(--text-small)] font-medium text-[var(--text-primary)] transition-all duration-150 hover:text-[var(--accent-1)]"
+                        className="inline-flex items-center gap-1.5 px-3.5 min-h-[44px] rounded-full text-[length:var(--text-small)] font-medium text-[var(--text-primary)] transition-all duration-150 hover:text-[color:var(--accent-primary,var(--accent-1))]"
                         style={{
-                          background: "rgba(15,23,42,0.6)",
+                          background: "rgba(12,14,20,0.6)",
                           border: "1px solid rgba(96,165,250,0.28)",
                           boxShadow: "0 0 12px rgba(37,99,235,0.1), inset 0 1px 0 rgba(147,197,253,0.1)",
                         }}
@@ -312,9 +324,9 @@ export default function Contact() {
               href={gmailUrl ?? "#contact"}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-[var(--text-primary)] transition-all duration-200 hover:border-[rgba(96,165,250,0.45)] hover:text-[var(--accent-1)]"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-[var(--text-primary)] transition-all duration-200 hover:border-[rgba(96,165,250,0.45)] hover:text-[color:var(--accent-primary,var(--accent-1))]"
               style={{
-                background: "rgba(15,23,42,0.45)",
+                background: "rgba(12,14,20,0.45)",
                 border: "1px solid rgba(96,165,250,0.25)",
               }}
             >
@@ -323,9 +335,9 @@ export default function Contact() {
             </a>
             <a
               href="/#contact"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-[var(--text-primary)] transition-all duration-200 hover:border-[rgba(96,165,250,0.45)] hover:text-[var(--accent-1)]"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-[var(--text-primary)] transition-all duration-200 hover:border-[rgba(96,165,250,0.45)] hover:text-[color:var(--accent-primary,var(--accent-1))]"
               style={{
-                background: "rgba(15,23,42,0.45)",
+                background: "rgba(12,14,20,0.45)",
                 border: "1px solid rgba(96,165,250,0.25)",
               }}
             >
@@ -340,7 +352,7 @@ export default function Contact() {
           id="contact-form"
           className="relative overflow-hidden p-6 lg:p-8 flex flex-col gap-6"
           style={{
-            background: "linear-gradient(180deg, rgba(12,18,35,0.88) 0%, rgba(6,9,18,0.95) 100%)",
+            background: "linear-gradient(180deg, rgba(12,14,20,0.88) 0%, rgba(8,10,16,0.95) 100%)",
             border: "1.5px solid rgba(59,130,246,0.55)",
             borderRadius: "var(--radius-card, 16px)",
             boxShadow: "0 0 60px rgba(37,99,235,0.22), 0 0 120px rgba(37,99,235,0.08), inset 0 1px 0 rgba(147,197,253,0.18)",
@@ -492,7 +504,7 @@ export default function Contact() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-[var(--accent-1)] shrink-0"
+                  className="text-[color:var(--accent-primary,var(--accent-1))] shrink-0"
                   aria-hidden="true"
                 >
                   <rect x="3" y="11" width="18" height="11" rx="2" />

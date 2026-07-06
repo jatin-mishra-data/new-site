@@ -6,10 +6,13 @@
 :root {
   /* Color — canonical values from docs/design.md §5 */
   --bg-base:        #050816;
+  --bg-photo-overlay-top:    rgba(10, 10, 10, 0.35);
+  --bg-photo-overlay-bottom: rgba(10, 10, 10, 0.92);
   --bg-elevated:    #081226;
-  --glass-fill:     rgba(255, 255, 255, 0.06);
+  --glass-fill:     rgba(12, 14, 20, 0.55);
   --glass-border:   rgba(77, 163, 255, 0.18);
-  --accent-1:       #2563EB;
+  --accent-primary: #2563EB;
+  --accent-1:       #2563EB; /* legacy alias, kept for backward compatibility — use --accent-primary going forward */
   --accent-2:       #4DA3FF;
   --accent-grad:    linear-gradient(135deg, #2563EB, #4DA3FF);
   --text-primary:   #F5F5F7;
@@ -117,6 +120,47 @@
 /* ============================================================
    Utilities
    ============================================================ */
+
+/* Full-page photographic background + progressive dark overlay (design.md §2a) */
+/* Stays position:fixed (viewport-pinned) for Phase 1 — a true scroll-revealed,
+   full-document background needs a taller/re-cropped source asset (the current
+   single crop would be forced to cover a multi-thousand-px box, cropping to a
+   tiny zoomed strip) and adds mobile/perf risk (tall absolute backgrounds +
+   iOS Safari repaint quirks). See docs/design.md §2a for the deferred plan. */
+@utility page-background {
+  position:       fixed;
+  inset:          0;
+  z-index:        0;
+  pointer-events: none;
+  background-image:    url("/backgrounds/bg-main-mobile.webp");
+  background-size:     cover;
+  background-position: center top;
+  background-repeat:   no-repeat;
+}
+
+.page-background::after {
+  content:    "";
+  position:   absolute;
+  inset:      0;
+  /* Soft directional highlight behind the hero so the fixed overlay reads as a lit scene, not a flat scrim, layered under the same top→bottom darkening */
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, transparent 0%, rgba(10,10,10,0.12) 45%, transparent 70%),
+    linear-gradient(to bottom, var(--bg-photo-overlay-top), var(--bg-photo-overlay-bottom));
+}
+
+@media (min-width: 640px) {
+  .page-background {
+    background-image:    url("/backgrounds/bg-main-tablet.webp");
+    background-position: center 20%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-background {
+    background-image:    url("/backgrounds/bg-main.webp");
+    background-position: center 22%;
+  }
+}
 
 /* Frosted-glass surface (design.md §8) */
 @utility glass {

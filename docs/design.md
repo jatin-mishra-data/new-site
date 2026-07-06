@@ -27,10 +27,20 @@ Guiding principles:
 
 ## 2. Design Language
 
-- **Theme:** Dark mode primary. Near-black canvas with frosted **glass-morphism** cards (semi-transparent fills + subtle blur + 1px light border).
-- **Foundation:** **Material Design 3** principles (spacing rhythm, elevation, accessible contrast, state layers on interactive elements) reinterpreted in a dark, premium skin.
-- **Accent:** a single indigo→pink gradient used *sparingly* — primary CTA, headline highlight, focus glows. Never as large background fills that hurt contrast.
+- **Theme:** Dark mode primary. **Cinematic photographic canvas** — one continuous full-page background image (a moody, dusk/night landscape) with a progressive dark overlay, topped with frosted **glass-morphism** cards (darker, higher-opacity fills + subtle blur + 1px light border) so content stays legible over the photography. See §2a.
+- **Foundation:** **Material Design 3** principles (spacing rhythm, elevation, accessible contrast, state layers on interactive elements) reinterpreted in a dark, premium, photographic skin.
+- **Accent:** a single **refined primary accent** derived from the existing indigo/blue palette, used *sparingly* — primary CTA, headline highlight, focus glows, icons, links. Never as large background fills that hurt contrast. (Exact value stays a token — see §5 — chosen to preserve brand identity while reading cleanly over photography.)
 - **Tone:** modern and client-facing. **Not** "developer-y," **not** corporate-consultancy, **not** agency.
+
+### 2a. Cinematic Background Philosophy
+
+The page background is a **section-based photographic journey**: each major section (Hero, Services, Process, Work, About, Contact) carries its own photograph, chosen so the page reads as one continuous scene moving through a day — sunrise (Hero) → bright morning (Services) → daylight (Process) → blue hour (Work) → starry night (About) → darkest late-night (Contact). Packages/Solutions, Tools, and Footer have no dedicated photo and continue to sit on the shared fallback background (see below) or a solid dark glass finish.
+
+- Each section's photo is layered with its own dark overlay: darkest at the very top and bottom edges (a shared, consistent near-black tone) fading up to its most-visible point mid-section. Because every section's top/bottom edge fades to the **same** dark tone, adjacent sections blend into one another despite using different underlying photographs — there is no hard seam between, say, Hero's sunrise image and Services' morning image.
+- The overlay's mid-section darkness **increases** as the journey progresses — Hero and Services stay lightest (sunrise/morning are meant to read clearly), Process and Work are progressively more muted, and About/Contact deepen toward near-solid, consistent with the original principle that legibility and calm matter most by the time the visitor reaches Contact.
+- A single shared fallback background (the original one-image-plus-overlay system, still fixed/viewport-pinned) remains mounted globally via `PageBackground` and is what shows behind Packages/Solutions and Tools, which don't have a dedicated photo in this phase.
+- Implementation stays lightweight: plain CSS `background-image`/`background-size: cover` plus layered gradient overlays per section, no JS-driven parallax, no new dependencies.
+- **Phase 1 note:** each section's background is still `position: absolute` *within that section* (not scroll-revealing a single taller image) — it swaps once per section rather than continuously scrolling a single photo. A true single continuous scroll-revealed photograph (rather than six discrete section photos) remains a later, asset-dependent improvement (see prior note on `position: fixed` vs. full-document background) and is not scheduled for Phase 1.
 
 ---
 
@@ -56,7 +66,7 @@ Sticky glass top navigation overlays the page; on mobile it collapses to a hambu
 
 ## 4. Section-by-Section Design Direction
 
-**Hero (full viewport)** — Two columns on desktop. Left (~55%): small eyebrow label → large headline/tagline → one supporting sentence (audience + Bank of America edge) → primary CTA + secondary CTA → a thin trust strip of plain-text facts. Right (~45%): the **static/CSS hero visual** (see §15). Background: near-black with a soft, slow-drifting blurred gradient blob. Mobile: single column, visual simplifies to a CSS gradient.
+**Hero (full viewport)** — Two columns on desktop, modestly rebalanced (~46% / ~54%) so the visual owns more of the first viewport. Left: small eyebrow label → large headline/tagline → one supporting sentence (audience + Bank of America edge) → primary CTA + secondary CTA → a thin trust strip of plain-text facts. Right (larger): composed directly over the **photographic page background** (see §2a, §15) rather than a separate visual element — the background image itself carries the hero's visual interest, with the darkest part of the overlay kept behind the left-column text for contrast. Mobile: single column; background image and overlay persist but simplify/crop to keep text legible.
 
 **Services** — Section heading + one-line promise. A grid of 4 glass service tiles (icon + title + one line each). 3 columns desktop / 2 tablet / 1 mobile. Each tile is a quiet link to the primary CTA. Hover: subtle lift + border glow.
 
@@ -82,19 +92,20 @@ Sticky glass top navigation overlays the page; on mobile it collapses to a hambu
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg-base` | `#0A0A0A` | Page background (near-black) |
-| `--bg-elevated` | `#141417` | Surface behind glass cards |
-| `--glass-fill` | `rgba(255,255,255,0.06)` | Glass card fill |
+| `--bg-base` | `#0A0A0A` | Fallback/base page color beneath the photographic background and its overlay |
+| `--bg-photo-overlay-top` | `rgba(10,10,10,0.35)` | Scrim opacity near the hero, lightest point of the overlay |
+| `--bg-photo-overlay-bottom` | `rgba(10,10,10,0.92)` | Scrim opacity by Contact/Footer, near-solid for legibility |
+| `--bg-elevated` | `#141417` | Surface behind glass cards (used as a solid fallback / underlay when needed) |
+| `--glass-fill` | `rgba(12,14,20,0.55)` | Glass card fill — darker, higher-opacity than a standard glass panel so text stays legible over photography |
 | `--glass-border` | `rgba(255,255,255,0.12)` | 1px glass card border |
-| `--accent-1` | `#6C63FF` (indigo) | Gradient start |
-| `--accent-2` | `#FF6584` (pink) | Gradient end |
-| `--accent-grad` | `linear-gradient(135deg,#6C63FF,#FF6584)` | Primary CTA, headline highlight, focus glow |
+| `--accent-primary` | *refined blue derived from the existing indigo palette* | The single accent color — primary CTA, headline highlight, focus glow, links, icons, active states. Exact value tuned during implementation to preserve brand identity while reading cleanly over the photographic background; never a competing large fill. |
+| `--accent-grad` | `linear-gradient(135deg, var(--accent-primary), #FF6584)` | Optional secondary gradient use (headline highlight only) — kept subordinate to `--accent-primary` as the dominant accent |
 | `--text-primary` | `#F5F5F7` | Headings, body |
 | `--text-muted` | `#A1A1AA` | Secondary text |
 | `--success` | `#34D399` | Form success states |
 | `--error` | `#F87171` | Form error states |
 
-**Contrast guardrail:** body text must meet ≥ 4.5:1 against its background. Verify the `--text-muted` on `--bg-base` pair early; darken the background or lighten the text if it fails.
+**Contrast guardrail:** body text must meet ≥ 4.5:1 against its background. Because body copy now sits over a photographic background rather than a flat color, verify contrast against the **darkest and lightest points of the overlay gradient**, not just `--bg-base`; darken the overlay or lighten the text if either fails.
 
 ---
 
@@ -133,7 +144,7 @@ Sticky glass top navigation overlays the page; on mobile it collapses to a hambu
 - All components reference **design tokens**, never hard-coded colors/sizes.
 - **Corner radius:** cards 20px · buttons 12px · pills/tags 999px.
 - Reusable primitives: `GlassCard`, `Button`, `SectionWrapper` (handles padding, max-width, scroll-anchor id), `Pill`, `Nav`, `MobileMenu`, `StatBand`, `CTAButton`, `Reveal` (scroll-animation wrapper).
-- **Glass effect:** `--glass-fill` background + `backdrop-blur` + 1px `--glass-border`. If blur ever reduces text contrast, add a subtle solid underlay behind text.
+- **Glass effect:** `--glass-fill` background (darker/higher-opacity than a standard glass panel — see §5) + `backdrop-blur` + 1px `--glass-border`, tuned for legibility over the photographic background. If blur ever reduces text contrast, add a subtle solid underlay behind text.
 - One **primary CTA** style site-wide (`CTAButton`, label "Book a Free Call") so the main action is instantly recognizable everywhere.
 
 ---
@@ -142,7 +153,7 @@ Sticky glass top navigation overlays the page; on mobile it collapses to a hambu
 
 | Variant | Appearance | Use |
 |---|---|---|
-| **Primary** | Solid `--accent-grad` fill, `--text-primary` label, 12px radius, subtle lift + brighter glow on hover (150–200ms) | The one main action: "Book a Free Call" |
+| **Primary** | Solid `--accent-primary` fill, `--text-primary` label, 12px radius, subtle lift + brighter glow on hover (150–200ms) | The one main action: "Book a Free Call" |
 | **Secondary** | Glass / outline (transparent fill, 1px `--glass-border`), light label | "Get a Free Website Audit", lower-commitment actions |
 | **Ghost** | Text-only with a small trailing arrow icon | Inline links ("Live", "Details") |
 
@@ -152,7 +163,7 @@ Rules: never place two primary buttons competing in the same view; the primary i
 
 ## 10. Card Styles
 
-- **Base:** `GlassCard` — `--glass-fill`, 1px `--glass-border`, 20px radius, internal padding 24–32px.
+- **Base:** `GlassCard` — `--glass-fill` (darker/higher-opacity per §5 for legibility over the photographic background), 1px `--glass-border`, 20px radius, internal padding 24–32px.
 - **Elevation:** soft, shallow shadow; cards sit *on* the page, not floating far above it.
 - **Hover (interactive cards):** lift ~6px, border brightens toward accent, optional inner image scales ~1.04. Disabled on touch/mobile and under reduced-motion.
 - **Work cards:** 16:9 media top, then title → client type → deliverable line → tag pills → links. "Coming Soon" variant uses reduced opacity + a small lock/blur, no real links.
@@ -163,7 +174,7 @@ Rules: never place two primary buttons competing in the same view; the primary i
 ## 11. Form Styles
 
 - **Inputs:** comfortable height (~48px), dark elevated fill, 1px `--glass-border`, 12px radius, `Inter` label above each field.
-- **Focus state:** 2px accent-colored border / glow (use `--accent-1`), never a low-contrast outline.
+- **Focus state:** 2px accent-colored border / glow (use `--accent-primary`), never a low-contrast outline.
 - **Validation:** inline, below the field. Success uses `--success`; errors use `--error` with a short, human message and `aria-describedby` linking the message to the field.
 - **States:** idle → submitting (button disabled + spinner) → success (clear confirmation, form resets) / error (retry guidance).
 - **Spam:** a visually hidden honeypot field; if filled, silently drop the submission.
@@ -208,15 +219,11 @@ Rules: never place two primary buttons competing in the same view; the primary i
 
 ## 15. Phase 1 Static Hero Visual Direction
 
-The Phase 1 hero visual is **static / CSS / SVG only** — and it is the *entire* hero visual, not a placeholder for 3D.
+The Phase 1 hero visual is **static — a single optimized photographic image (via `next/image`) plus CSS overlay, no JS rendering engine** — and it is the *entire* hero visual, not a placeholder for 3D.
 
-Approved options (pick one in build):
+The hero visual **is** the top of the full-page photographic background described in §2a: the same continuous cinematic image + dark-overlay treatment carries through the hero, rather than a separate abstract graphic sitting beside the headline. The left-column text sits over the darkest part of the hero's portion of the overlay for contrast; the image's own detail (landscape/scene) provides the visual interest on the right/background.
 
-- **Gradient mesh / aurora:** layered CSS `radial-gradient`s in the accent palette with a slow `@keyframes` drift. Premium, near-zero weight.
-- **Floating glass-card stack:** 2–3 overlapping `GlassCard`s at slight angles with gentle CSS float, hinting at "websites I build."
-- **Subtle particle / dot grid:** a light CSS/SVG dot or line grid with a soft accent glow.
-
-Requirements: pure CSS/SVG (no JS engine), instant paint, looks premium on a dark canvas, and animation pauses under `prefers-reduced-motion`. Because it cannot "fail," it needs **no fallback, no error boundary, no detection logic**.
+Requirements: a single static image asset (no JS engine, no canvas/WebGL), instant paint (proper sizing, `priority` loading, modern format), looks premium on a dark canvas, and any accompanying overlay animation (ambient drift, if used) pauses under `prefers-reduced-motion`. Because it cannot "fail," it needs **no fallback, no error boundary, no detection logic**.
 
 ---
 

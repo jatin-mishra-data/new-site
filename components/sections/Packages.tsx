@@ -17,7 +17,7 @@ export default function Packages() {
 
       {/* Header */}
       <div className="text-center mb-14">
-        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[var(--accent-1)]">
+        <span className="inline-block mb-5 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-fill)] text-[length:var(--text-small)] font-semibold tracking-widest uppercase text-[color:var(--accent-primary,var(--accent-1))]">
           Solutions
         </span>
         <h2
@@ -38,7 +38,8 @@ export default function Packages() {
         {solutions.map(({ label, icon }) => (
           <div
             key={label}
-            className="glass flex items-center gap-4 px-6 py-5 rounded-[var(--radius-card)]"
+            className="glass flex items-center gap-4 px-6 py-5 rounded-[var(--radius-card)] transition-all duration-300 hover:-translate-y-1 hover:[border-color:rgba(96,165,250,0.4)]"
+            style={{ background: "rgba(12,14,20,0.62)", boxShadow: "0 8px 28px rgba(0,0,0,0.35)" }}
           >
             <span className="text-2xl shrink-0" aria-hidden="true">{icon}</span>
             <span className="text-[var(--text-primary)] font-medium text-sm leading-snug">{label}</span>

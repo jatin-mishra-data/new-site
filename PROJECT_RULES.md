@@ -8,7 +8,7 @@
 
 - **Project name:** Jatin Mishra — Freelance Website + Business-Consulting Service Landing Page.
 - **Purpose:** Lead generation — booked calls, website-audit requests, and enquiries.
-- **Phase:** Phase 1 (single landing page).
+- **Phase:** Phase 1 (single landing page `/`, plus the approved `/solutions` route — see §8).
 - **Status:** Planning complete; in implementation.
 
 This **is** Jatin Mishra's freelance website + business-consulting service landing page.
@@ -112,8 +112,9 @@ unless explicitly instructed.
 
 ## 8. Project Constraints
 
-- **Phase 1 only.** Single landing page.
+- **Phase 1 only.** Primarily a single landing page, lead-generation focused.
 - **Locked section order:** Hero → Services → Process → Work → Packages → About → Tools → Contact → Footer.
+- **Approved routes:** `/` (the landing page) and `/solutions` (services & pricing detail page, linked from Services/Work/Packages CTAs and listed in `sitemap.ts`). `/solutions` is the **only** approved route beyond `/`.
 
 Do **NOT** implement (unless explicitly requested):
 
@@ -125,6 +126,7 @@ Do **NOT** implement (unless explicitly requested):
 - `/audit`
 - `/resume`
 - `/work/[slug]`
+- Any other route beyond `/` and `/solutions`
 
 ---
 

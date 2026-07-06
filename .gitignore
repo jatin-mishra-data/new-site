@@ -61,3 +61,9 @@ _check_*.js
 services-diag.png
 services-section-only.png
 services-test.png
+
+# Personal documents — not part of the site
+/Jatin_Mishra_Resume.pdf
+
+# Original unoptimized background source photos — only the WebP versions are served
+public/backgrounds/*.jpg
