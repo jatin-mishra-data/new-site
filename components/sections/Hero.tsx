@@ -8,7 +8,7 @@ const trustPoints = ["9 sites shipped", "ex-Bank of America", "Currently accepti
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden pt-16"
+      className="relative isolate min-h-screen flex items-center overflow-hidden pt-16"
       aria-labelledby="hero-heading"
     >
       {/* ── Section-local cinematic background: sunrise mountain road ── */}

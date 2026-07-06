@@ -8,7 +8,7 @@ interface Props {
 
 export default function SectionWrapper({ id, children, className = "" }: Props) {
   return (
-    <section id={id} className={`section-container ${className}`}>
+    <section id={id} className={`section-container isolate ${className}`}>
       <div className="content-container">{children}</div>
     </section>
   );
